@@ -1,12 +1,14 @@
 import React from "react";
 
+import { MainPage } from "./components/MainPage";
+
 import { GlobalStyle } from "./GlobalStyles";
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <div>test</div>
+      <MainPage />
     </>
   );
 }

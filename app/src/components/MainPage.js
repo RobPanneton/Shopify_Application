@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 export const MainPage = () => {
   const [userInput, setUserInput] = useState("");
+  // const [engineSelect, setEngineSelect] = useState("text-curie-001");
   const [emptyInputWarning, setEmptyInputWarning] = useState(false);
   const [aiResponses, setAiResponses] = useState([]);
 
@@ -45,9 +46,11 @@ export const MainPage = () => {
       }
     );
 
+    // CONVERT DATA TO JS OJBECT
     const data = await res.json();
 
-    setAiResponses([...aiResponses, { userInput, ...data }]);
+    // SET RESPONSE OBJECT W/ INPUT AT BEGINNING OF RESPONSE ARRAY, RESET CURRENT INPUT TO ""
+    setAiResponses([{ userInput, ...data }, ...aiResponses]);
     return setUserInput("");
   };
 

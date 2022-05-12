@@ -33,7 +33,6 @@ export const MainPage = () => {
     };
 
     // FETCH RESPONSE FROM BACK END
-    console.log(bodyData);
     const res = await fetch(
       "https://api.openai.com/v1/engines/text-curie-001/completions",
       {
@@ -49,8 +48,26 @@ export const MainPage = () => {
     // CONVERT DATA TO JS OJBECT
     const data = await res.json();
 
-    // SET RESPONSE OBJECT W/ INPUT AT BEGINNING OF RESPONSE ARRAY, RESET CURRENT INPUT TO ""
-    setAiResponses([{ userInput, ...data }, ...aiResponses]);
+    // GET TIME STRING
+    const responseTime = new Date(data.created * 1000).toLocaleString("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    });
+
+    // SET RESPONSE OBJECT W/ INPUT AND TIME AT BEGINNING OF RESPONSE ARRAY, RESET CURRENT INPUT TO ""
+    setAiResponses([
+      {
+        userInput,
+        time: responseTime,
+        aiResponse: data.choices[0].text,
+      },
+      ...aiResponses,
+    ]);
     return setUserInput("");
   };
 
@@ -95,7 +112,8 @@ export const MainPage = () => {
                 return (
                   <div key={index}>
                     <Typography>{aiItem.userInput}</Typography>
-                    <Typography>{aiItem.choices[0].text}</Typography>
+                    <Typography>{aiItem.time}</Typography>
+                    <Typography>{aiItem.aiResponse}</Typography>
                   </div>
                 );
               })}
@@ -122,7 +140,6 @@ const MainWrapper = styled(Container)`
 
 const ContentWrapper = styled(Container)`
   margin: 72px auto 0 auto;
-  border: 1px solid black;
   max-width: 50%;
 
   div.submit-div {

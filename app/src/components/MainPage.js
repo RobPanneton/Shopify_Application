@@ -31,12 +31,6 @@ export const MainPage = () => {
   ];
 
   // USE EFFECTS
-  // UTILS
-  useEffect(() => {
-    if (emptyInputWarning === true && userInput !== "")
-      setEmptyInputWarning(false);
-  }, [userInput]);
-
   //CONSOLE LOGS
   useEffect(() => {
     console.log(aiResponses);
@@ -52,7 +46,11 @@ export const MainPage = () => {
 
   const submitInputToBE = async () => {
     // CHECK IF INPUT IS EMPTY -- BREAK OUT OF SUBMIT IF TRUE
-    if (userInput === "") return setEmptyInputWarning(true);
+    if (
+      userInput === "" &&
+      userInput !== `Please ask me something before hitting "Submit" !`
+    )
+      return setEmptyInputWarning(true);
 
     // PREPARE POST REQUEST BODY
     const bodyData = {
@@ -141,10 +139,20 @@ export const MainPage = () => {
             </Grid>
             <TextField
               label='Enter Prompt'
-              value={userInput}
+              value={
+                emptyInputWarning
+                  ? `Please ask me something before hitting "Submit" !`
+                  : userInput
+              }
               multiline={true}
               rows='7'
               onChange={(e) => {
+                if (
+                  emptyInputWarning === true &&
+                  userInput !==
+                    `Please ask me something before hitting "Submit" !`
+                )
+                  setEmptyInputWarning(false);
                 setUserInput(e.target.value);
               }}
               fullWidth

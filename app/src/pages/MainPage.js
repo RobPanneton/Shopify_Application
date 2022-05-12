@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
 
-import { AppContext } from "../context/AppContext";
 import { Form } from "../components/mainPage/Form";
 import { Results } from "../components/mainPage/Results";
 
@@ -9,11 +8,6 @@ import { Container } from "@mui/material";
 import styled from "styled-components";
 
 export const MainPage = () => {
-  // GET CONTEXT
-  const { aiResponses } = useContext(AppContext);
-
-  console.log(aiResponses);
-
   return (
     <>
       <MainWrapper>

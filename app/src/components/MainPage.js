@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AppContext } from "../context/AppContext";
 
 import {
   Container,
@@ -16,21 +17,18 @@ import {
 import styled from "styled-components";
 
 export const MainPage = () => {
-  // USE STATE
-  const [userInput, setUserInput] = useState("");
-  const [engineSelect, setEngineSelect] = useState("text-curie-001");
-  const [emptyInputWarning, setEmptyInputWarning] = useState(false);
-  const [aiResponses, setAiResponses] = useState([]);
-
-  const warningMessage = `Please ask me something before hitting "Submit" !`;
-
-  // ENGINES
-  const engineOptions = [
-    "text-davinci-002",
-    "text-curie-001",
-    "text-babbage-001",
-    "text-ada-001",
-  ];
+  // GET CONTEXT
+  const {
+    userInput,
+    engineSelect,
+    emptyInputWarning,
+    aiResponses,
+    engineOptions,
+    warningMessage,
+    handleSelectChange,
+    handleTextFieldChange,
+    submitInputToBE,
+  } = useContext(AppContext);
 
   // USE EFFECTS
   //CONSOLE LOGS
@@ -41,70 +39,6 @@ export const MainPage = () => {
   useEffect(() => {
     console.log(engineSelect);
   }, [engineSelect]);
-
-  const handleSelectChange = (e) => {
-    return setEngineSelect(e.target.value);
-  };
-
-  const handleTextFieldChange = (e) => {
-    if (emptyInputWarning === true && e.target.value !== warningMessage)
-      setEmptyInputWarning(false);
-    return setUserInput(e.target.value);
-  };
-
-  const submitInputToBE = async () => {
-    // CHECK IF INPUT IS EMPTY -- BREAK OUT OF SUBMIT IF TRUE
-    if (userInput === "" && userInput !== warningMessage)
-      return setEmptyInputWarning(true);
-
-    // PREPARE POST REQUEST BODY
-    const bodyData = {
-      prompt: userInput,
-      temperature: 0.5,
-      max_tokens: 64,
-      top_p: 1.0,
-      frequency_penalty: 0.0,
-      presence_penalty: 0.0,
-    };
-
-    // FETCH RESPONSE FROM BACK END
-    const res = await fetch(
-      `https://api.openai.com/v1/engines/${engineSelect}/completions`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.REACT_APP_OPENAI_SECRET}`,
-        },
-        body: JSON.stringify(bodyData),
-      }
-    );
-
-    // CONVERT DATA TO JS OJBECT
-    const data = await res.json();
-
-    // GET TIME STRING
-    const responseTime = new Date(data.created * 1000).toLocaleString("en-US", {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-    });
-
-    // SET RESPONSE OBJECT W/ INPUT AND TIME AT BEGINNING OF RESPONSE ARRAY, RESET CURRENT INPUT TO ""
-    setAiResponses([
-      {
-        userInput,
-        time: responseTime,
-        aiResponse: data.choices[0].text,
-      },
-      ...aiResponses,
-    ]);
-    return setUserInput("");
-  };
 
   return (
     <>

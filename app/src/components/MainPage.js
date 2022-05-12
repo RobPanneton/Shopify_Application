@@ -124,6 +124,7 @@ export const MainPage = () => {
                 <FormControl fullWidth>
                   <InputLabel id='engine-select-label'>Engine</InputLabel>
                   <Select
+                    InputProps={{ inputProps: { tabIndex: 0 } }}
                     labelId='engine-select-label'
                     id='engine-select'
                     label='Engine'

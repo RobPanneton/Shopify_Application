@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 
 import {
@@ -29,16 +29,6 @@ export const MainPage = () => {
     handleTextFieldChange,
     submitInputToBE,
   } = useContext(AppContext);
-
-  // USE EFFECTS
-  //CONSOLE LOGS
-  useEffect(() => {
-    console.log(aiResponses);
-  }, [aiResponses]);
-
-  useEffect(() => {
-    console.log(engineSelect);
-  }, [engineSelect]);
 
   return (
     <>

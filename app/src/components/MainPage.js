@@ -73,6 +73,18 @@ export const MainPage = () => {
           <Typography variant='h4' fontWeight='600'>
             Responses
           </Typography>
+          {aiResponses.length > 0 && (
+            <>
+              {aiResponses.map((aiItem, index) => {
+                return (
+                  <div key={index}>
+                    <Typography>{aiItem.userInput}</Typography>
+                    <Typography>{aiItem.choices[0].text}</Typography>
+                  </div>
+                );
+              })}
+            </>
+          )}
         </ContentWrapper>
       </MainWrapper>
     </>

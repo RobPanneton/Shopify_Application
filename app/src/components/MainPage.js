@@ -1,22 +1,54 @@
 import React, { useState, useEffect } from "react";
 
-import { Container, Typography, Button, TextField } from "@mui/material";
+import {
+  Container,
+  Grid,
+  Box,
+  Typography,
+  Button,
+  TextField,
+  FormControl,
+  Select,
+  InputLabel,
+  MenuItem,
+} from "@mui/material";
+
 import styled from "styled-components";
 
 export const MainPage = () => {
+  // USE STATE
   const [userInput, setUserInput] = useState("");
-  // const [engineSelect, setEngineSelect] = useState("text-curie-001");
+  const [engineSelect, setEngineSelect] = useState("text-curie-001");
   const [emptyInputWarning, setEmptyInputWarning] = useState(false);
   const [aiResponses, setAiResponses] = useState([]);
 
+  // ENGINES
+  const engineOptions = [
+    "text-davinci-002",
+    "text-curie-001",
+    "text-babbage-001",
+    "text-ada-001",
+  ];
+
+  // USE EFFECTS
+  // UTILS
+  useEffect(() => {
+    if (emptyInputWarning === true && userInput !== "")
+      setEmptyInputWarning(false);
+  }, [userInput]);
+
+  //CONSOLE LOGS
   useEffect(() => {
     console.log(aiResponses);
   }, [aiResponses]);
 
   useEffect(() => {
-    if (emptyInputWarning === true && userInput !== "")
-      setEmptyInputWarning(false);
-  }, [userInput]);
+    console.log(engineSelect);
+  }, [engineSelect]);
+
+  const handleSelectChange = (e) => {
+    setEngineSelect(e.target.value);
+  };
 
   const submitInputToBE = async () => {
     // CHECK IF INPUT IS EMPTY -- BREAK OUT OF SUBMIT IF TRUE
@@ -34,7 +66,7 @@ export const MainPage = () => {
 
     // FETCH RESPONSE FROM BACK END
     const res = await fetch(
-      "https://api.openai.com/v1/engines/text-curie-001/completions",
+      `https://api.openai.com/v1/engines/${engineSelect}/completions`,
       {
         method: "POST",
         headers: {
@@ -75,50 +107,76 @@ export const MainPage = () => {
     <>
       <MainWrapper>
         <ContentWrapper maxWidth='50%' sx={{ borderRadius: "11px" }}>
-          <Typography variant='h3' fontWeight='600' marginBottom='23px'>
-            Fun with AI
-          </Typography>
-          <TextField
-            label='Enter Prompt'
-            value={userInput}
-            multiline={true}
-            rows='7'
-            onChange={(e) => {
-              setUserInput(e.target.value);
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              return submitInputToBE();
             }}
-            fullWidth
-            focused
-          ></TextField>
-          <div className='submit-div'>
-            <Button
-              color='primary'
-              variant='contained'
-              onClick={submitInputToBE}
-            >
-              Submit
-            </Button>
-          </div>
-          {emptyInputWarning === true && (
-            <Typography variant='h3' fontWeight='800'>
-              Please enter something in the text box
+          >
+            <Grid container justifyContent='space-between'>
+              <Typography variant='h3' fontWeight='600' marginBottom='23px'>
+                Playground
+              </Typography>
+              <Box sx={{ minWidth: 200 }}>
+                <FormControl fullWidth>
+                  <InputLabel id='engine-select-label'>Engine</InputLabel>
+                  <Select
+                    labelId='engine-select-label'
+                    id='engine-select'
+                    label='Engine'
+                    variant='outlined'
+                    value={engineSelect}
+                    onChange={handleSelectChange}
+                  >
+                    {engineOptions.map((option) => {
+                      return (
+                        <MenuItem key={option} value={option}>
+                          {option}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </Box>
+            </Grid>
+            <TextField
+              label='Enter Prompt'
+              value={userInput}
+              multiline={true}
+              rows='7'
+              onChange={(e) => {
+                setUserInput(e.target.value);
+              }}
+              fullWidth
+              focused
+            ></TextField>
+            <div className='submit-div'>
+              <Button color='primary' variant='contained' type='submit'>
+                Submit
+              </Button>
+            </div>
+            {emptyInputWarning === true && (
+              <Typography variant='h3' fontWeight='800'>
+                Please enter something in the text box
+              </Typography>
+            )}
+            <Typography variant='h4' fontWeight='600'>
+              Responses
             </Typography>
-          )}
-          <Typography variant='h4' fontWeight='600'>
-            Responses
-          </Typography>
-          {aiResponses.length > 0 && (
-            <>
-              {aiResponses.map((aiItem, index) => {
-                return (
-                  <div key={index}>
-                    <Typography>{aiItem.userInput}</Typography>
-                    <Typography>{aiItem.time}</Typography>
-                    <Typography>{aiItem.aiResponse}</Typography>
-                  </div>
-                );
-              })}
-            </>
-          )}
+            {aiResponses.length > 0 && (
+              <>
+                {aiResponses.map((aiItem, index) => {
+                  return (
+                    <div key={index}>
+                      <Typography>{aiItem.userInput}</Typography>
+                      <Typography>{aiItem.time}</Typography>
+                      <Typography>{aiItem.aiResponse}</Typography>
+                    </div>
+                  );
+                })}
+              </>
+            )}
+          </form>
         </ContentWrapper>
       </MainWrapper>
     </>

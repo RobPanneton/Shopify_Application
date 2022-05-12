@@ -22,6 +22,8 @@ export const MainPage = () => {
   const [emptyInputWarning, setEmptyInputWarning] = useState(false);
   const [aiResponses, setAiResponses] = useState([]);
 
+  const warningMessage = `Please ask me something before hitting "Submit" !`;
+
   // ENGINES
   const engineOptions = [
     "text-davinci-002",
@@ -41,15 +43,18 @@ export const MainPage = () => {
   }, [engineSelect]);
 
   const handleSelectChange = (e) => {
-    setEngineSelect(e.target.value);
+    return setEngineSelect(e.target.value);
+  };
+
+  const handleTextFieldChange = (e) => {
+    if (emptyInputWarning === true && e.target.value !== warningMessage)
+      setEmptyInputWarning(false);
+    return setUserInput(e.target.value);
   };
 
   const submitInputToBE = async () => {
     // CHECK IF INPUT IS EMPTY -- BREAK OUT OF SUBMIT IF TRUE
-    if (
-      userInput === "" &&
-      userInput !== `Please ask me something before hitting "Submit" !`
-    )
+    if (userInput === "" && userInput !== warningMessage)
       return setEmptyInputWarning(true);
 
     // PREPARE POST REQUEST BODY
@@ -139,22 +144,10 @@ export const MainPage = () => {
             </Grid>
             <TextField
               label='Enter Prompt'
-              value={
-                emptyInputWarning
-                  ? `Please ask me something before hitting "Submit" !`
-                  : userInput
-              }
+              value={emptyInputWarning ? warningMessage : userInput}
               multiline={true}
               rows='7'
-              onChange={(e) => {
-                if (
-                  emptyInputWarning === true &&
-                  userInput !==
-                    `Please ask me something before hitting "Submit" !`
-                )
-                  setEmptyInputWarning(false);
-                setUserInput(e.target.value);
-              }}
+              onChange={handleTextFieldChange}
               fullWidth
               focused
             ></TextField>
@@ -163,11 +156,6 @@ export const MainPage = () => {
                 Submit
               </Button>
             </div>
-            {emptyInputWarning === true && (
-              <Typography variant='h3' fontWeight='800'>
-                Please enter something in the text box
-              </Typography>
-            )}
             <Typography variant='h4' fontWeight='600'>
               Responses
             </Typography>

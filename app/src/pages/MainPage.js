@@ -1,105 +1,25 @@
 import React, { useContext } from "react";
-import { AppContext } from "../context/AppContext";
 
-import {
-  Container,
-  Grid,
-  Box,
-  Typography,
-  Button,
-  TextField,
-  FormControl,
-  Select,
-  InputLabel,
-  MenuItem,
-} from "@mui/material";
+import { AppContext } from "../context/AppContext";
+import { Form } from "../components/mainPage/Form";
+import { Results } from "../components/mainPage/Results";
+
+import { Container } from "@mui/material";
 
 import styled from "styled-components";
 
 export const MainPage = () => {
   // GET CONTEXT
-  const {
-    userInput,
-    engineSelect,
-    emptyInputWarning,
-    aiResponses,
-    engineOptions,
-    warningMessage,
-    handleSelectChange,
-    handleTextFieldChange,
-    submitInputToBE,
-  } = useContext(AppContext);
+  const { aiResponses } = useContext(AppContext);
+
+  console.log(aiResponses);
 
   return (
     <>
       <MainWrapper>
         <ContentWrapper maxWidth='50%' sx={{ borderRadius: "11px" }}>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              return submitInputToBE();
-            }}
-          >
-            <Grid container justifyContent='space-between'>
-              <Typography variant='h3' fontWeight='600' marginBottom='23px'>
-                Playground
-              </Typography>
-              <Box sx={{ minWidth: 200 }}>
-                <FormControl fullWidth>
-                  <InputLabel id='engine-select-label'>Engine</InputLabel>
-                  <Select
-                    inputProps={{ tabIndex: 0 }}
-                    labelId='engine-select-label'
-                    id='engine-select'
-                    label='Engine'
-                    variant='outlined'
-                    value={engineSelect}
-                    onChange={handleSelectChange}
-                  >
-                    {engineOptions.map((option) => {
-                      return (
-                        <MenuItem key={option} value={option}>
-                          {option}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-              </Box>
-            </Grid>
-            <TextField
-              label='Enter Prompt'
-              value={emptyInputWarning ? warningMessage : userInput}
-              multiline={true}
-              rows='7'
-              onChange={handleTextFieldChange}
-              fullWidth
-              focused
-            ></TextField>
-            <div className='submit-div'>
-              <Button color='primary' variant='contained' type='submit'>
-                Submit
-              </Button>
-            </div>
-          </form>
-          <Typography variant='h4' fontWeight='600'>
-            Responses
-          </Typography>
-          {aiResponses.length > 0 && (
-            <>
-              {aiResponses.map((aiItem, index) => {
-                return (
-                  <div key={index}>
-                    <Typography>{aiItem.userInput}</Typography>
-                    <Typography>{aiItem.time}</Typography>
-                    <Typography style={{ whiteSpace: "pre-line" }}>
-                      {aiItem.aiResponse}
-                    </Typography>
-                  </div>
-                );
-              })}
-            </>
-          )}
+          <Form />
+          <Results />
         </ContentWrapper>
       </MainWrapper>
     </>

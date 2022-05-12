@@ -75,50 +75,53 @@ export const MainPage = () => {
     <>
       <MainWrapper>
         <ContentWrapper maxWidth='50%' sx={{ borderRadius: "11px" }}>
-          <Typography variant='h3' fontWeight='600' marginBottom='23px'>
-            Fun with AI
-          </Typography>
-          <TextField
-            label='Enter Prompt'
-            value={userInput}
-            multiline={true}
-            rows='7'
-            onChange={(e) => {
-              setUserInput(e.target.value);
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              return submitInputToBE();
             }}
-            fullWidth
-            focused
-          ></TextField>
-          <div className='submit-div'>
-            <Button
-              color='primary'
-              variant='contained'
-              onClick={submitInputToBE}
-            >
-              Submit
-            </Button>
-          </div>
-          {emptyInputWarning === true && (
-            <Typography variant='h3' fontWeight='800'>
-              Please enter something in the text box
+          >
+            <Typography variant='h3' fontWeight='600' marginBottom='23px'>
+              Playground
             </Typography>
-          )}
-          <Typography variant='h4' fontWeight='600'>
-            Responses
-          </Typography>
-          {aiResponses.length > 0 && (
-            <>
-              {aiResponses.map((aiItem, index) => {
-                return (
-                  <div key={index}>
-                    <Typography>{aiItem.userInput}</Typography>
-                    <Typography>{aiItem.time}</Typography>
-                    <Typography>{aiItem.aiResponse}</Typography>
-                  </div>
-                );
-              })}
-            </>
-          )}
+            <TextField
+              label='Enter Prompt'
+              value={userInput}
+              multiline={true}
+              rows='7'
+              onChange={(e) => {
+                setUserInput(e.target.value);
+              }}
+              fullWidth
+              focused
+            ></TextField>
+            <div className='submit-div'>
+              <Button color='primary' variant='contained' type='submit'>
+                Submit
+              </Button>
+            </div>
+            {emptyInputWarning === true && (
+              <Typography variant='h3' fontWeight='800'>
+                Please enter something in the text box
+              </Typography>
+            )}
+            <Typography variant='h4' fontWeight='600'>
+              Responses
+            </Typography>
+            {aiResponses.length > 0 && (
+              <>
+                {aiResponses.map((aiItem, index) => {
+                  return (
+                    <div key={index}>
+                      <Typography>{aiItem.userInput}</Typography>
+                      <Typography>{aiItem.time}</Typography>
+                      <Typography>{aiItem.aiResponse}</Typography>
+                    </div>
+                  );
+                })}
+              </>
+            )}
+          </form>
         </ContentWrapper>
       </MainWrapper>
     </>

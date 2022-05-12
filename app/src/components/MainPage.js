@@ -5,13 +5,22 @@ import styled from "styled-components";
 
 export const MainPage = () => {
   const [userInput, setUserInput] = useState("");
+  const [emptyInputWarning, setEmptyInputWarning] = useState(false);
   const [aiResponses, setAiResponses] = useState([]);
 
   useEffect(() => {
     console.log(aiResponses);
   }, [aiResponses]);
 
+  useEffect(() => {
+    if (emptyInputWarning === true && userInput !== "")
+      setEmptyInputWarning(false);
+  }, [userInput]);
+
   const submitInputToBE = async () => {
+    // CHECK IF INPUT IS EMPTY -- BREAK OUT OF SUBMIT IF TRUE
+    if (userInput === "") return setEmptyInputWarning(true);
+
     // PREPARE POST REQUEST BODY
     const bodyData = {
       prompt: userInput,
@@ -39,9 +48,7 @@ export const MainPage = () => {
     const data = await res.json();
 
     setAiResponses([...aiResponses, { userInput, ...data }]);
-    setUserInput("");
-
-    return;
+    return setUserInput("");
   };
 
   return (
@@ -53,6 +60,7 @@ export const MainPage = () => {
           </Typography>
           <TextField
             label='Enter Prompt'
+            value={userInput}
             multiline={true}
             rows='7'
             onChange={(e) => {
@@ -70,9 +78,26 @@ export const MainPage = () => {
               Submit
             </Button>
           </div>
+          {emptyInputWarning === true && (
+            <Typography variant='h3' fontWeight='800'>
+              Please enter something in the text box
+            </Typography>
+          )}
           <Typography variant='h4' fontWeight='600'>
             Responses
           </Typography>
+          {aiResponses.length > 0 && (
+            <>
+              {aiResponses.map((aiItem, index) => {
+                return (
+                  <div key={index}>
+                    <Typography>{aiItem.userInput}</Typography>
+                    <Typography>{aiItem.choices[0].text}</Typography>
+                  </div>
+                );
+              })}
+            </>
+          )}
         </ContentWrapper>
       </MainWrapper>
     </>

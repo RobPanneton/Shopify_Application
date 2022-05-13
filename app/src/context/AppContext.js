@@ -78,13 +78,6 @@ export const AppContextProvider = ({ children }) => {
     // CLEAN UP AI RESPONSE (REMOVE TRAILING AND LEADING /Ns, REMOVE LEADING QUESTION MARKS)
     let cleanAiResponse = cleanUpAiResponse(data.choices[0].text);
 
-    if (cleanAiResponse.charAt(0) === "?")
-      cleanAiResponse = cleanAiResponse.subString(1);
-    if (cleanAiResponse.slice(0, 2) === "\n") {
-      cleanAiResponse = cleanAiResponse.subString(2);
-      return cleanUpAiResponse();
-    }
-
     // SET RESPONSE OBJECT W/ INPUT AND TIME AT BEGINNING OF RESPONSE ARRAY, RESET CURRENT INPUT TO ""
     setAiResponses([
       {
@@ -97,12 +90,11 @@ export const AppContextProvider = ({ children }) => {
     return setUserInput("");
   };
 
+  // SOME RESPONSES HAVE LEADING "?", REMOVE, AND TRIM OFF EMPTY SPACE AT START AND END
   const cleanUpAiResponse = (responseString) => {
     if (responseString.charAt(0) === "?")
       return cleanUpAiResponse(responseString.subString(1));
-    if (responseString.slice(0, 2) === "\n")
-      return cleanUpAiResponse(responseString.subString(2));
-    return responseString;
+    return responseString.trim();
   };
 
   return (

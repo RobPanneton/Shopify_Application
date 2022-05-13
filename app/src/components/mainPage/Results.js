@@ -25,7 +25,11 @@ export const Results = () => {
                 sx={{ width: "80%", mb: "13px" }}
               >
                 <CardContent>
-                  <Typography variant='subtitle2' sx={{ mb: "23px" }}>
+                  <Typography
+                    variant='subtitle2'
+                    align='right'
+                    sx={{ mb: "23px" }}
+                  >
                     {aiItem.time}
                   </Typography>
                   <Typography variant='h6' sx={{ mb: "17px" }}>

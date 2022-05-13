@@ -66,7 +66,7 @@ export const AppContextProvider = ({ children }) => {
 
     // GET TIME STRING
     const responseTime = new Date(data.created * 1000).toLocaleString("en-US", {
-      weekday: "long",
+      weekday: "short",
       month: "long",
       day: "numeric",
       year: "numeric",

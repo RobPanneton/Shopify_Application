@@ -1,9 +1,7 @@
 import React, { useContext } from "react";
 import { AppContext } from "../../context/AppContext";
 
-
 import { Grid, Card, CardContent, Typography } from "@mui/material";
-
 
 export const Results = () => {
   // GET CONTEXT FOR CONTENT
@@ -41,26 +39,6 @@ export const Results = () => {
             );
           })}
         </Grid>
-  // RENDER THE CONTENT
-  return (
-    <>
-      <Typography variant='h4' fontWeight='600'>
-        Responses
-      </Typography>
-      {aiResponses.length > 0 && (
-        <>
-          {aiResponses.map((aiItem, index) => {
-            return (
-              <div key={index}>
-                <Typography>{aiItem.userInput}</Typography>
-                <Typography>{aiItem.time}</Typography>
-                <Typography style={{ whiteSpace: "pre-line" }}>
-                  {aiItem.aiResponse}
-                </Typography>
-              </div>
-            );
-          })}
-        </>
       )}
     </>
   );

@@ -34,7 +34,6 @@ export const Form = () => {
         return submitInputToBE();
       }}
     >
-
       <Grid container justifyContent='space-between'>
         <Typography variant='h3' fontWeight='600' marginBottom='23px'>
           Playground

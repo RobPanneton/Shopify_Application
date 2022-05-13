@@ -28,7 +28,7 @@ export const Results = () => {
                   <Typography variant='subtitle2' sx={{ mb: "23px" }}>
                     {aiItem.time}
                   </Typography>
-                  <Typography variant='h6'>
+                  <Typography variant='h6' sx={{ mb: "17px" }}>
                     Question: {aiItem.userInput}
                   </Typography>
                   <Typography variant='h5' style={{ whiteSpace: "pre-line" }}>

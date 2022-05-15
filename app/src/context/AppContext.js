@@ -8,6 +8,7 @@ export const AppContextProvider = ({ children }) => {
   const [engineSelect, setEngineSelect] = useState("text-curie-001");
   const [emptyInputWarning, setEmptyInputWarning] = useState(false);
   const [aiResponses, setAiResponses] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // BLANK TEXTFIELD MESSAGE
   const warningMessage = `Please ask me something before hitting "Submit" !`;
@@ -37,6 +38,9 @@ export const AppContextProvider = ({ children }) => {
     // CHECK IF INPUT IS EMPTY -- BREAK OUT OF SUBMIT IF TRUE
     if (userInput === "" && userInput !== warningMessage)
       return setEmptyInputWarning(true);
+
+    // SET ISLOADING TO TRUE TO MAKE SPINNER APPEAR
+    setIsLoading(true);
 
     // PREPARE POST REQUEST BODY
     const bodyData = {
@@ -87,6 +91,11 @@ export const AppContextProvider = ({ children }) => {
       },
       ...aiResponses,
     ]);
+
+    // SET LOADING TO FALSE TO STOP LOADER RENDER
+    setIsLoading(false);
+
+    // RETURN AND EMPTY INPUT BOX AND STATE
     return setUserInput("");
   };
 
@@ -113,6 +122,7 @@ export const AppContextProvider = ({ children }) => {
         handleSelectChange,
         handleTextFieldChange,
         submitInputToBE,
+        isLoading,
       }}
     >
       {children}

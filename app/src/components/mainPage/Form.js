@@ -13,6 +13,8 @@ import {
   MenuItem,
 } from "@mui/material";
 
+import styled from "styled-components";
+
 export const Form = () => {
   // GET CONTEXT
   const {
@@ -59,6 +61,7 @@ export const Form = () => {
               })}
             </Select>
           </FormControl>
+          <SpacerDiv> </SpacerDiv>
         </Box>
       </Grid>
       <TextField
@@ -78,3 +81,9 @@ export const Form = () => {
     </form>
   );
 };
+
+const SpacerDiv = styled.div`
+  @media only screen and (max-width: 900px) {
+    min-height: 17px;
+  }
+`;

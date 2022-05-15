@@ -9,8 +9,6 @@ export const Results = () => {
   // GET CONTEXT FOR CONTENT
   const { aiResponses } = useContext(AppContext);
 
-  console.log(aiResponses);
-
   // RENDER THE CONTENT
   return (
     <ResultsSectionWrapper>

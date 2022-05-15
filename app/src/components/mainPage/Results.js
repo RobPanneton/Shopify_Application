@@ -22,7 +22,7 @@ export const Results = () => {
       </Typography>
       <Grid container item>
         {aiResponses.length > 0 && (
-          <Grid item>
+          <Grid item sx={{ width: "100%" }}>
             {aiResponses.map((aiItem, index) => {
               return (
                 <Card
@@ -60,8 +60,6 @@ export const Results = () => {
 };
 
 const ResultsSectionWrapper = styled.div`
-  width: 100%;
-
   display: flex;
   flex-direction: column;
 

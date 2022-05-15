@@ -2,13 +2,15 @@ import React from "react";
 
 import { MainPage } from "./pages/MainPage";
 
-import { GlobalStyle } from "./GlobalStyles";
+import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "./MuiThemeProvider";
 
 function App() {
   return (
     <>
-      <GlobalStyle />
-      <MainPage />
+      <ThemeProvider theme={theme}>
+        <MainPage />
+      </ThemeProvider>
     </>
   );
 }

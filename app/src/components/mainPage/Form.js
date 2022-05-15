@@ -13,6 +13,8 @@ import {
   MenuItem,
 } from "@mui/material";
 
+import styled from "styled-components";
+
 export const Form = () => {
   // GET CONTEXT
   const {
@@ -34,7 +36,6 @@ export const Form = () => {
         return submitInputToBE();
       }}
     >
-
       <Grid container justifyContent='space-between'>
         <Typography variant='h3' fontWeight='600' marginBottom='23px'>
           Playground
@@ -60,6 +61,7 @@ export const Form = () => {
               })}
             </Select>
           </FormControl>
+          <SpacerDiv> </SpacerDiv>
         </Box>
       </Grid>
       <TextField
@@ -79,3 +81,9 @@ export const Form = () => {
     </form>
   );
 };
+
+const SpacerDiv = styled.div`
+  @media only screen and (max-width: 900px) {
+    min-height: 17px;
+  }
+`;

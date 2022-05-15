@@ -4,14 +4,13 @@ import { Form } from "../components/mainPage/Form";
 import { Results } from "../components/mainPage/Results";
 
 import { Container } from "@mui/material";
-
 import styled from "styled-components";
 
 export const MainPage = () => {
   return (
     <>
       <MainWrapper>
-        <ContentWrapper maxWidth='50%' sx={{ borderRadius: "11px" }}>
+        <ContentWrapper sx={{ borderRadius: "11px" }}>
           <Form />
           <Results />
         </ContentWrapper>
@@ -33,9 +32,13 @@ const MainWrapper = styled(Container)`
   font-family: "Quicksand";
 `;
 
-const ContentWrapper = styled(Container)`
+const ContentWrapper = styled.div`
   margin: 72px auto 0 auto;
   max-width: 50%;
+
+  @media only screen and (max-width: 900px) {
+    max-width: 100%;
+  }
 
   div.submit-div {
     display: flex;

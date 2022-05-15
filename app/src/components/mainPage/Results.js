@@ -4,10 +4,11 @@ import { AppContext } from "../../context/AppContext";
 import { Grid, Card, CardContent, Typography } from "@mui/material";
 
 import styled from "styled-components";
+import { LoadSpinner } from "./LoadSpinner";
 
 export const Results = () => {
   // GET CONTEXT FOR CONTENT
-  const { aiResponses } = useContext(AppContext);
+  const { aiResponses, isLoading } = useContext(AppContext);
 
   // RENDER THE CONTENT
   return (
@@ -20,9 +21,10 @@ export const Results = () => {
       >
         Responses
       </Typography>
+      {isLoading && <LoadSpinner />}
       <Grid container item>
         {aiResponses.length > 0 && (
-          <Grid item>
+          <Grid item sx={{ width: "100%" }}>
             {aiResponses.map((aiItem, index) => {
               return (
                 <Card
@@ -60,8 +62,6 @@ export const Results = () => {
 };
 
 const ResultsSectionWrapper = styled.div`
-  width: 100%;
-
   display: flex;
   flex-direction: column;
 

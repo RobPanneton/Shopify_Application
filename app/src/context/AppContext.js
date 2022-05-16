@@ -63,7 +63,7 @@ export const AppContextProvider = ({ children }) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer sdfsdf ${process.env.REACT_APP_OPENAI_SECRET}`,
+            Authorization: `Bearer ${process.env.REACT_APP_OPENAI_SECRET}`,
           },
           body: JSON.stringify(bodyData),
         }

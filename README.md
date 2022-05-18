@@ -6,6 +6,13 @@
 - Material-UI
 - styled-components
 
+# Extra Features
+
+- Dropdown for selecting engine
+- Loader spinner renders while the response is being fetched
+- Error handling for when the request fails
+- Stop user from sending empty input
+
 # Instructions for running the app
 
 ## Make sure node.js is installed on your machine, it could be installed via this [link](https://nodejs.org/en/download/) .

@@ -68,7 +68,7 @@ export const Form = () => {
         label='Enter Prompt'
         value={emptyInputWarning ? warningMessage : userInput}
         multiline={true}
-        rows='7'
+        rows='4'
         onChange={handleTextFieldChange}
         fullWidth
         focused
